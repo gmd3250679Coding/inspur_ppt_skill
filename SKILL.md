@@ -5,12 +5,27 @@ description: 生成浪潮/海岳公司风格的汇报、方案、产品介绍、
 
 # Inspur PPT Skill
 
-用于制作浪潮/海岳公司风格 PPT。风格依据当前 skill 内的 `templates/` 和 `examples/` 归纳:
+用于制作浪潮/海岳公司风格 PPT。风格依据当前 skill 内的 `templates/`、`references/` 和开发期可选 `examples/` 归纳:
 
 - 主色: 深蓝 `#0D48CE/#0E48CE`, 亮蓝 `#1D78FA/#006EFF`, 青绿 `#00A0A0`, 白底和深蓝底交替。
 - 字体: 中文优先 `Microsoft YaHei`/`微软雅黑`, 英文和数字优先 `Arial`/`Inter`。
 - 气质: 企业科技、可信、清爽、信息密度中高, 避免花哨装饰。
 - 常见版式: 封面、目录、章节页、指标卡、流程图、三/四列能力卡、左右图文、案例页、对比表、收束页。
+
+## 安装后自检
+
+首次使用或从 GitHub zip 安装后, 先确认这些文件存在:
+
+```bash
+test -f SKILL.md
+test -f templates/汇报模板.pptx
+test -f templates/新员工转正汇报模板.pptx
+test -f assets/template-inspur.html
+test -f scripts/validate-inspur-deck.mjs
+test -f scripts/inspect-inspur-pptx.mjs
+```
+
+如果任一命令失败, 说明安装包不完整。不要继续生成, 先让用户补齐仓库或重新安装完整目录。
 
 ## 工作流
 
@@ -20,7 +35,9 @@ description: 生成浪潮/海岳公司风格的汇报、方案、产品介绍、
 
 - 用户要"公司 PPT"、"汇报"、"方案"、"转正汇报"、"产品介绍"、"可以编辑的 PPT"。
 - 先读 `references/native-pptx-workflow.md`。
-- 优先复制并改造 `templates/汇报模板.pptx`; 新员工转正场景使用 `templates/新员工转正汇报模板.pptx`。
+- 再按需要读取 `references/template-map.md`、`references/pptx-components.md`、`references/artifact-tool-pptx.md` 和 `references/pptx-quality-gates.md`。
+- 优先复用 `templates/汇报模板.pptx` 的风格和页型; 新员工转正场景使用 `templates/新员工转正汇报模板.pptx`。
+- 如果无法稳定编辑模板内部元素, 使用 artifact-tool 重新生成可编辑文本、形状和线条, 不退回整页截图式 PPT。
 
 只有在用户明确需要网页、HTML、横向翻页、单文件演示、浏览器打开时, 选择 **网页 PPT**:
 
@@ -49,6 +66,8 @@ description: 生成浪潮/海岳公司风格的汇报、方案、产品介绍、
 5. 实践/案例: 场景、落地路径、效果数据。
 6. 总结/计划: 价值、下一步、资源诉求或 Q&A。
 
+产品功能介绍、ChatBI、AI 产品发布等 10 页左右需求, 默认使用 `references/native-pptx-workflow.md` 里的"AI 产品功能介绍 10 页默认结构"。
+
 详细视觉规则读 `references/style-guide.md`。
 
 ### 4. 使用素材
@@ -61,20 +80,24 @@ inspur_ppt_skill/
 ├── templates/
 │   ├── 汇报模板.pptx
 │   └── 新员工转正汇报模板.pptx
-├── examples/
-│   └── *.pptx
 ├── assets/
 │   └── template-inspur.html
 ├── references/
 │   ├── style-guide.md
 │   ├── native-pptx-workflow.md
+│   ├── template-map.md
+│   ├── pptx-components.md
+│   ├── artifact-tool-pptx.md
+│   ├── pptx-quality-gates.md
+│   ├── example-style-summary.md
 │   ├── html-layouts.md
 │   └── checklist.md
 └── scripts/
+    ├── inspect-inspur-pptx.mjs
     └── validate-inspur-deck.mjs
 ```
 
-不要把 `examples/浪潮海岳商业AI产品方案V2.pptx` 整体复制到新项目里, 它体积很大。只把它作为风格和内容参考。
+安装版默认不依赖 `examples/`。如果当前 skill 目录存在 `examples/`, 只能作为开发期风格参考; 不要把示例 PPTX 整体复制到新项目里, 也不要假设用户安装后一定有这些大文件。优先使用 `references/example-style-summary.md`。
 
 ### 5. 质量检查
 
@@ -85,7 +108,8 @@ inspur_ppt_skill/
 - 颜色不跑偏: 蓝白科技主调, 少量青绿或橙色只做强调。
 - 中文大标题不超过两行; 客户方案页避免口号化空话。
 - PPTX 必须可编辑; HTML 必须本地打开可翻页。
+- PPTX 交付前运行 `references/pptx-quality-gates.md` 中的 zip、文本层和预览检查。
 
 ## 参考来源
 
-本 skill 的组织方式参考 `guizang-ppt-skill` 的分层方法: `SKILL.md` 放核心流程, `references/` 放可按需加载的细则, `assets/` 放模板, `scripts/` 放校验脚本。不要把参考项目的品牌、赞助信息或视觉风格写进浪潮/海岳输出物。
+本 skill 的组织方式参考 `op7418/guizang-ppt-skill` 的分层方法: `SKILL.md` 放核心流程, `references/` 放可按需加载的细则, `assets/` 放模板, `scripts/` 放校验脚本, `README.md` 面向安装和触发说明。不要把参考项目的品牌、赞助信息或视觉风格写进浪潮/海岳输出物。

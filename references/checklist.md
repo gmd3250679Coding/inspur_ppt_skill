@@ -23,6 +23,10 @@
 - 图片不丢失, 不依赖外部链接。
 - 表格文字投屏可读, 不低于 10 pt。
 - 文件能正常打开, 没有兼容性报错。
+- `unzip -t "<output.pptx>"` 通过。
+- `node scripts/inspect-inspur-pptx.mjs "<output.pptx>"` 通过, 且主要正文页能检出文本层。
+- 页数与大纲一致; 10 页左右需求通常控制在 8-12 页。
+- 如果 contact sheet 因系统 Python 缺少 `PIL` 失败, 优先切换 Codex bundled Python, 不要把已生成 PPTX 误判为失败。
 
 ## HTML
 

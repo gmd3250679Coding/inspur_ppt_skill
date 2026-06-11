@@ -2,3 +2,9 @@
 
 # Keep reference decks local; publish only the reusable skill and templates.
 examples/
+templates/
+skill使用问题总结.md
+
+# Generated decks and local installation bundles should not be published.
+outputs/
+*.zip
