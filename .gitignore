@@ -1,0 +1,4 @@
+.DS_Store
+
+# Keep reference decks local; publish only the reusable skill and templates.
+examples/
